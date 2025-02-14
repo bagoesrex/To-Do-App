@@ -20,20 +20,20 @@ class DetailTaskActivity : AppCompatActivity() {
         setContentView(R.layout.activity_task_detail)
 
         //TODO 11 : Show detail task and implement delete action
-        val etTitle = findViewById<TextInputEditText>(R.id.detail_ed_title)
-        val etDesc = findViewById<TextInputEditText>(R.id.detail_ed_description)
+        val edTitle = findViewById<TextInputEditText>(R.id.detail_ed_title)
+        val edDesc = findViewById<TextInputEditText>(R.id.detail_ed_description)
         val edDueDate = findViewById<TextInputEditText>(R.id.detail_ed_due_date)
         val btnDelete = findViewById<Button>(R.id.btn_delete_task)
 
         val taskId = intent.getIntExtra(TASK_ID, 0)
 
         val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory)[DetailTaskViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory).get(DetailTaskViewModel::class.java)
         viewModel.apply {
             setTaskId(taskId)
             task.observe(this@DetailTaskActivity) {
-                etTitle.text = Editable.Factory.getInstance().newEditable(it.title)
-                etDesc.text =
+                edTitle.text = Editable.Factory.getInstance().newEditable(it.title)
+                edDesc.text =
                     Editable.Factory.getInstance().newEditable(it.description)
                 edDueDate.text = Editable.Factory
                     .getInstance()
