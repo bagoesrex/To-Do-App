@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.todoapp.R
 import com.dicoding.todoapp.data.Task
@@ -39,7 +40,12 @@ class TaskActivity : AppCompatActivity() {
         }
 
         //TODO 6 : Initiate RecyclerView with LayoutManager, Adapter, and update database when onCheckChange
-
+        recycler = findViewById(R.id.rv_task)
+        taskAdapter = TaskAdapter {task, state ->
+            taskViewModel.completeTask(task, state)
+        }
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.adapter = taskAdapter
         initAction()
 
         val factory = ViewModelFactory.getInstance(this)
@@ -52,6 +58,7 @@ class TaskActivity : AppCompatActivity() {
 
     private fun updateData(task: PagingData<Task>) {
         //TODO 7 : Submit PagingData to adapter
+        taskAdapter.submitData(lifecycle, task)
     }
 
     private fun showSnackBar(eventMessage: Event<Int>) {
